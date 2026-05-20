@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PapoEscola - Mural da Turma</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="avisoSucesso" class="toast">Ação realizada! 🎉</div>
+
+    <header>
+        <img src="logo.png" alt="Logo PapoEscola" class="logo-img">
+        <h1>Papo<span>Escola</span></h1>
+        <p>Espaço de interação entre alunos e professores</p>
+    </header>
+
+    <main id="app">
+        <section class="post-box">
+            <select id="tipoUsuario" onchange="mudarTipo()">
+                <option value="Aluno">Sou Aluno(a)</option>
+                <option value="Professor">Sou Professor(a)</option>
+            </select>
+
+            <div id="camposAluno">
+                <input type="text" id="nomeAluno" placeholder="Seu nome completo">
+                <input type="text" id="turmaAluno" placeholder="Sua turma (ex: 2º Ano A)">
+            </div>
+
+            <div id="checarSenhaProf" style="display: none;">
+                <input type="password" id="senhaProf" placeholder="Senha de acesso docente">
+            </div>
+            
+            <div class="editor-container">
+                <div class="toolbar">
+                    <button type="button" class="tool-btn" onmousedown="event.preventDefault(); formatarEstilo('bold')">B</button>
+                    <button type="button" class="tool-btn" onmousedown="event.preventDefault(); formatarEstilo('italic')">I</button>
+                    <button type="button" class="tool-btn" onclick="toggleEmojis('listaEmojisPost')">😀</button>
+                    
+                    <div id="listaEmojisPost" class="emoji-picker" style="display:none">
+                        <span onclick="addEmoji('😀', 'caixaTexto')">😀</span>
+                        <span onclick="addEmoji('👏', 'caixaTexto')">👏</span>
+                        <span onclick="addEmoji('🚀', 'caixaTexto')">🚀</span>
+                        <span onclick="addEmoji('💡', 'caixaTexto')">💡</span>
+                    </div>
+                </div>
+                <div id="caixaTexto" class="rich-editor" contenteditable="true" oninput="contar('caixaTexto', 'numLetras')"></div>
+                <div class="char-counter"><span id="numLetras">0</span>/500</div>
+            </div>
+            
+            <button type="button" onclick="publicarPost()" class="btn-share">Postar no Mural</button>
+            <button type="button" onclick="limparFormulario()" class="btn-limpar">Limpar Formulário</button>
+        </section>
+
+        <section id="listaPostagens"></section>
+    </main>
+
+    <div id="janelaResposta" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Enviar Feedback Oficial</h3>
+            <div class="quick-replies">
+                <button onclick="usarAtalho('Excelente colocação! Continue assim. 👏')">👏 Elogiar</button>
+                <button onclick="usarAtalho('Dúvida importante! Vamos tratar disso na aula. 📚')">📚 Aula</button>
+            </div>
+
+            <input type="password" id="senhaValidar" placeholder="Sua senha de professor">
+            <div class="editor-container" style="margin: 15px 0">
+                <div id="textoResposta" class="rich-editor" contenteditable="true" style="min-height: 80px;" oninput="contar('textoResposta', 'numLetrasResp')"></div>
+                <div class="char-counter"><span id="numLetrasResp">0</span>/300</div>
+            </div>
+            
+            <div class="modal-actions">
+                <button onclick="fecharModais()" class="btn-cancel">Voltar</button>
+                <button onclick="confirmarEnviarResposta()" class="btn-confirm-blue">Publicar Resposta</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="janelaApagar" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Apagar esta postagem?</h3>
+            <p style="font-size: 0.8rem; color: #666; margin-bottom: 10px;">Ação restrita a moderadores.</p>
+            <input type="password" id="senhaAdminApagar" placeholder="Senha de Moderador">
+            <div class="modal-actions">
+                <button onclick="fecharModais()" class="btn-cancel">Cancelar</button>
+                <button onclick="confirmarExcluir()" class="btn-confirm-red">Sim, Remover</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
